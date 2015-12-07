@@ -11,19 +11,19 @@ Author: Vbridge
 define ( "XRO_APP_TYPE", "Private" );
 define ( "OAUTH_CALLBACK", "oob" );
 
-add_action('admin_menu', 'isxwpe_ xero_create_table');
-function isxwpe_ xero_create_table() // Function to create left menu on wp-admin
+add_action('admin_menu', 'isxwpe_xero_create_menu');
+function isxwpe_xero_create_menu() // Function to create left menu on wp-admin
 {
 	if (function_exists('add_menu_page')) {
 		
-	  add_menu_page('Page title', 'Xero Sync', 'manage_options', 'invoice-sync-for-xero-and-wpecommerce/xero-invoice.php', 'isxwpe_ xero_settings_menu');
-	  add_submenu_page( 'invoice-sync-for-xero-and-wpecommerce/xero-invoice.php', 'Page title', 'Xero Sync History', 'manage_options', 'invoice-sync-for-xero-and-wpecommerce/isxwpe_ invoice_history.php', 'isxwpe_ invoice_history');
-	  add_submenu_page( 'invoice-sync-for-xero-and-wpecommerce/xero-invoice.php', 'Page title', 'Help', 'manage_options', 'invoice-sync-for-xero-and-wpecommerce/isxwpe_ plugin_help.php', 'isxwpe_ plugin_help');
+	  add_menu_page('Page title', 'Xero Sync', 'manage_options', 'invoice-sync-for-xero-and-wpecommerce/xero-invoice.php', 'isxwpe_xero_settings_menu');
+	  add_submenu_page( 'invoice-sync-for-xero-and-wpecommerce/xero-invoice.php', 'Page title', 'Xero Sync History', 'manage_options', 'invoice-sync-for-xero-and-wpecommerce/isxwpe_invoice_history.php', 'isxwpe_invoice_history');
+	  add_submenu_page( 'invoice-sync-for-xero-and-wpecommerce/xero-invoice.php', 'Page title', 'Help', 'manage_options', 'invoice-sync-for-xero-and-wpecommerce/isxwpe_plugin_help.php', 'isxwpe_plugin_help');
 	}
 	  
 }
 
-function isxwpe_ invoice_history() // function to display invoice history
+function isxwpe_invoice_history() // function to display invoice history
 {
 	global $wpdb; 
 	//plugins_url(). '/invoice-sync-for-xero-and-wpecommerce/css/jquery-ui.css'
@@ -43,7 +43,7 @@ function isxwpe_ invoice_history() // function to display invoice history
 	</script>
 	<?php $end_date = date('Y-m-d');
 	$upload_dir = wp_upload_dir();
-	$current_url = admin_url().'admin.php?page=invoice-sync-for-xero-and-wpecommerce/isxwpe_ invoice_history.php'; // Select base url of history page
+	$current_url = admin_url().'admin.php?page=invoice-sync-for-xero-and-wpecommerce/isxwpe_invoice_history.php'; // Select base url of history page
 	$start_date = date('Y-m-d' ,strtotime('-1 month'));
 	if(isset($_GET['start_date']) && $_GET['start_date'] != '')
 	{
@@ -62,7 +62,7 @@ function isxwpe_ invoice_history() // function to display invoice history
 	<h3>Invoice Sync History</h3>
 	<p style="font-size: 16px;">All the invoices that were pushed to Xero are listed below</p>
 	<form action="<?php echo get_site_url().'/wp-admin/admin.php'; ?>" method="get" class="history_form">
-		<input type="hidden" name="page" value="invoice-sync-for-xero-and-wpecommerce/isxwpe_ invoice_history.php" />
+		<input type="hidden" name="page" value="invoice-sync-for-xero-and-wpecommerce/isxwpe_invoice_history.php" />
 		<b style="font-size:15px">Shows results from</b>
 		<input type="text" id="start_date" value = <?php echo $start_date; ?> name="start_date" placeholder="Start date">
 		<b style="font-size:15px">To</b>
@@ -98,7 +98,7 @@ function isxwpe_ invoice_history() // function to display invoice history
 	
 	if(!empty($results))
 	{
-	echo isxwpe_ pagination($totalposts,$p,$lpm1,$prev,$next,$current_url);
+	echo isxwpe_pagination($totalposts,$p,$lpm1,$prev,$next,$current_url);
    ?>
    <style>
    .invoice_list td{
@@ -170,7 +170,7 @@ function isxwpe_ invoice_history() // function to display invoice history
 			}
 		}
 		echo '</table>';
-		echo isxwpe_ pagination($totalposts,$p,$lpm1,$prev,$next,$current_url);
+		echo isxwpe_pagination($totalposts,$p,$lpm1,$prev,$next,$current_url);
 	}
 	else echo '<div style=" color: red;
     font-size: 15px;
@@ -182,7 +182,7 @@ function isxwpe_ invoice_history() // function to display invoice history
 }
 
 
-function isxwpe_ xero_create_table()
+function isxwpe_xero_create_table()
 {
 	// Function which create all required tables when plugin installed
     // do NOT forget this global
@@ -216,8 +216,8 @@ function isxwpe_ xero_create_table()
 	}
 }
 // this hook will cause our creation function to run when the plugin is activated
-register_activation_hook( __FILE__, 'isxwpe_ xero_create_table' );
-function isxwpe_ xero_settings_menu()
+register_activation_hook( __FILE__, 'isxwpe_xero_create_table' );
+function isxwpe_xero_settings_menu()
 {
 	//Function to collect api credentials and authenticate
 	global $wpdb;
@@ -411,7 +411,7 @@ function isxwpe_ xero_settings_menu()
 <?php
 	
 }
-function isxwpe_ add_xero_invoice_to_account( )
+function isxwpe_add_xero_invoice_to_account( )
 {
 	// Function to add invoices to xero account
 	global $wpdb;
@@ -552,9 +552,9 @@ function isxwpe_ add_xero_invoice_to_account( )
 	}
 }
 
-add_action( 'wpsc_submit_checkout', 'isxwpe_ add_xero_invoice_to_account' );
+add_action( 'wpsc_submit_checkout', 'isxwpe_add_xero_invoice_to_account' );
 
-function isxwpe_ pagination($totalposts,$p,$lpm1,$prev,$next,$current_url){
+function isxwpe_pagination($totalposts,$p,$lpm1,$prev,$next,$current_url){
     $adjacents = 3;
     if($totalposts > 1)
     {
@@ -616,7 +616,7 @@ function isxwpe_ pagination($totalposts,$p,$lpm1,$prev,$next,$current_url){
     }
     return $pagination;
 }
-function isxwpe_ plugin_help()
+function isxwpe_plugin_help()
 {
 	echo '<h3>About plugin</h3>';
 	?>
